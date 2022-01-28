@@ -2,6 +2,7 @@
 
 ![Design preview for the Interactive comments section coding challenge](./design/desktop-preview.jpg)
 
+https://mosgizy.github.io/Interactive-Comment-Section/
 ## Welcome! 👋
 
 Thanks for checking out this front-end coding challenge.
