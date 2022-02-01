@@ -36,12 +36,10 @@ p{
 }
 
 .wrapper{
+    position: relative;
     padding: 0 1rem;
-    margin-block-end: 3rem;
-}
-
-.comment-wrapper{
-    margin-block-start: 3rem;
+    padding-block: 5rem;
+    /* margin-block-start: 5rem; */
 }
 
 .comment-container{
@@ -57,7 +55,7 @@ p{
 
 @media only screen and (min-width:768px){
     .wrapper{
-        max-width: 866px;
+        max-width: 768px;
         margin: auto;
     }
 
@@ -99,7 +97,7 @@ p{
 }
 
 .time{
-    color: var(--dark-blue);
+    color: var(--moderate-blue);
     font-weight: 500;
 }
 
@@ -115,6 +113,13 @@ p{
 .likes-wrapper{
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+@media only screen and (min-width:768px){
+    .likes-wrapper{
+        align-items: flex-start;
+    }
 }
 
 .likes-btn{
@@ -128,12 +133,14 @@ p{
     cursor: pointer;
 }
 
-.likes-btn::selection{
-    color: none;
-}
-
 .minus,.plus{
     padding: .5rem;
+}
+
+.nav-btn{
+    border: none;
+    outline: none;
+    background-color: var(--very-light-gray);
 }
 
 @media only screen and (min-width:768px){
@@ -204,7 +211,7 @@ textarea{
     height: 5.5rem;
     outline: none;
     font-family: "Rubik",sans-serif;
-    border: .02rem solid var(--light-grayish-blue);
+    border: .1px solid var(--light-gray);
     border-radius: var(--border);
     resize: none;
     padding: .5rem 1rem;
@@ -213,7 +220,7 @@ textarea{
 
 textarea:hover,
 textarea:focus{
-    border: .02rem solid var(--moderate-blue);
+    border: .1px solid var(--light-grayish-blue);
 }
 
 textarea::selection{
@@ -225,9 +232,9 @@ textarea::selection{
     background-color: var(--dark-blue);
     font-family: Rubik, sans-serif;
     font-weight: 700;
-    font-size: .8rem;
+    font-size: 1rem;
     color: var(--light-gray);
-    padding: .8rem 1.5rem;
+    padding: 1rem 1.7rem;
     border: none;
     border-radius: var(--border);
     outline: none;
@@ -284,6 +291,38 @@ textarea::selection{
 
 .comment-input-wrapper{
     margin-block-start: 1.2rem;
+}
+
+.delete-wrapper{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: var(--white);
+    max-width: 35ch;
+    padding: 2rem;
+    box-shadow: 0px 0px 2rem 205rem rgba(0, 0, 0, .4);
+}
+
+.delete-message{
+    margin-block: 1.5rem;
+}
+
+.delete-btn-wrapper{
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.delete{
+    background-color: var(--soft-red);
+    width: 100%;
+    font-size: .8rem;
+}
+
+.cancel{
+    width: 100%;
+    font-size: .8rem;
 }
 
 .hide{

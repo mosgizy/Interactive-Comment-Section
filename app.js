@@ -12,15 +12,15 @@ const commentTemplate = (currentUserAvatar, id, content, createdAt, like, avatar
       <div class="comment-container">
         <div class="likes-wrapper">
           <div class="likes-btn">
-            <div class="plus center" data-like=${id}><img src="images/icon-plus.svg" alt="plus"></div>
-            <div class="likes-count" data-like=${id} onselectstart="return false">${like}</div>
-            <div class="minus center" data-like=${id}><img src="images/icon-minus.svg" alt="minus"></div>
+            <button class="nav-btn plus center" data-like=${id}><img src="images/icon-plus.svg" alt="plus"></button>
+            <div class="likes-count" data-like=${id}>${like}</div>
+            <button class="nav-btn minus center" data-like=${id}><img src="images/icon-minus.svg" alt="minus"></button>
           </div>
 
           <div class="reply-mobile">
             <div class="reply reply${id} center" data-comment=${id}>
               <img src="images/icon-reply.svg" alt="reply">
-              <span>reply</span>
+              <p><span>reply</span></p>
             </div>
 
             <div class="edit-delete edit${id} center hide">
@@ -30,7 +30,7 @@ const commentTemplate = (currentUserAvatar, id, content, createdAt, like, avatar
               </div>
               <div class="edit-btn center gap" data-edit=${id}>
                 <img src="images/icon-edit.svg" alt="edit">
-                <span>edit</span>
+                <p><span>edit</span></p>
               </div>
             </div>
           </div>
@@ -41,15 +41,15 @@ const commentTemplate = (currentUserAvatar, id, content, createdAt, like, avatar
            <div class="profile-header">
             <div class="profile">
                 <img class="avatar" src=${avatar} alt="avatar">
-                <span class="name">${username}</span>
-                <span class="current-user hide" data-user=${id}>you</span>
-                <span class="time">${createdAt}</span>
+                <p><span class="name">${username}</span></p>
+                <p><span class="current-user hide" data-user=${id}>you</span></p>
+                <p><span class="time">${createdAt}</span></p>
             </div>
 
             <div class="reply-desktop">
             <div class="reply reply${id} center" data-comment=${id}>
               <img src="images/icon-reply.svg" alt="reply">
-              <span>reply</span>
+              <p><span>reply</span></p>
             </div>
 
             <div class="edit-delete edit${id} center hide">
@@ -59,7 +59,7 @@ const commentTemplate = (currentUserAvatar, id, content, createdAt, like, avatar
               </div>
               <div class="edit-btn center gap"  data-edit=${id}>
                 <img src="images/icon-edit.svg" alt="edit">
-                <span>edit</span>
+                <p><span>edit</span></p>
               </div>
             </div>
           </div>
@@ -95,6 +95,7 @@ const commentTemplate = (currentUserAvatar, id, content, createdAt, like, avatar
 
 const displayContent = (content) => {
     const comments = getClass("comment-wrapper")
+    const commentWrapper = getClass("wrapper")
 
     // get last index of id which will enable us to increase id for the next comment created
 
@@ -137,7 +138,7 @@ const displayContent = (content) => {
     likes(getAllClass("likes-btn"), getAllClass("likes-count"))
     showReplyInput(content, getAllClass("reply"), getAllClass("comment-input"), getAllClass("comment--reply"), incrId)
     editComment(getAllClass("edit-btn"), getAllClass("content-wrapper"))
-    deleteComment(getAllClass("comment--reply"), getAllClass("delete-btn"))
+    deleteComment(commentWrapper, getAllClass("comment--reply"), getAllClass("delete-btn"))
     addComment(content, comments, getClass("comment-btn"), getClass("comment-inputs"), incrId)
 }
 
@@ -148,7 +149,6 @@ const likes = (likes, showLikes) => {
         like.addEventListener("click", (e) => {
             if (e.target.classList.contains("plus") || e.target.parentNode.classList.contains("plus")) {
                 likeBtnNav(e.target, e.target.parentNode, "plus")
-
             } else if (e.target.classList.contains("minus") || e.target.parentNode.classList.contains("minus")) {
                 likeBtnNav(e.target, e.target.parentNode, "minus")
             }
@@ -172,7 +172,6 @@ const likes = (likes, showLikes) => {
 // if its the current user remove the reply button and add edit and delete button
 
 const removeReplyBtnForUser = (currentUserName, commentUserName, id) => {
-
     if (currentUserName === commentUserName) {
         const editDelete = getAllClass(`edit-delete`)
         const replyLink = getAllClass(`reply`)
@@ -297,12 +296,56 @@ const editComment = (editBtns, commentContent) => {
 
 // delete current user comments
 
-const deleteComment = (commentContainer, deleteBtns) => {
+const deleteComment = (wrapper, commentContainer, deleteBtns) => {
     deleteBtns.forEach((deleteBtn) => {
         deleteBtn.addEventListener("click", (e) => {
             commentContainer.forEach((comment) => {
                 if (deleteBtn.dataset.delete == comment.dataset.container) {
-                    comment.innerHTML = ""
+                    // this is just a tricky method to delete comments the delete wrapper is just there for showcase its not actually deleting the comments
+                    
+                    const deleteWrapper = getClass("delete-wrapper")
+                    deleteWrapper.classList.remove("hide")
+                    deleteWrapper.addEventListener("click", (e) => {
+                        if (e.target.classList.contains("cancel")) {
+                            deleteWrapper.classList.add("hide")
+                        }
+
+                        if (e.target.classList.contains("delete")) {
+                            deleteWrapper.classList.add("hide")
+                            comment.innerHTML = ""
+                        }
+                    })
+                    // i dont know why this is happening but if a change things in the DOM every other thing seize to work, all functionalities stop working and this is affecting all the codes, i know its my knowledge for know i will get a better understanding of this in the future
+                    //     wrapper.innerHTML += `
+                    //     <div class="delete-wrapper">
+                    //     <h3>Delete comment</h3>
+                    //     <p class="delete-message">
+                    //       Are you sure you want to delete this comment? This will remove the comment and can't be undone
+                    //     </p>
+                    //     <div class="delete-btn-wrapper">
+                    //       <button class="btn cancel">no cancel</button>
+                    //       <button class="delete btn">yes delete</button>
+                    //     </div>
+                    //   </div>
+                    //     `
+
+                    // const deleteWrapper = getClass("delete-wrapper")
+                    // deleteWrapper.addEventListener("click", (e) => {
+                    //     // console.log(e.target)
+                    //     comment.innerHTML = ""
+                    //     if (e.target.classList.contains("cancel")) {
+                    //         // deleteWrapper.classList.add("hide")
+                    //         wrapper.removeChild(deleteWrapper)
+                    //     }
+
+                    //     if (e.target.classList.contains("delete")) {
+                    //         wrapper.removeChild(deleteWrapper)
+                    //         // let par = comment.parentNode
+                    //         // par.removeChild(comment)
+                    //         // console.log(comment.parentNode.childNodes,comment)
+                    //         comment.innerHTML = ""
+                    //     }
+                    // })
                 }
             })
         })
