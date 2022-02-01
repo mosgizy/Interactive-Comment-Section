@@ -149,6 +149,7 @@ const likes = (likes, showLikes) => {
         like.addEventListener("click", (e) => {
             if (e.target.classList.contains("plus") || e.target.parentNode.classList.contains("plus")) {
                 likeBtnNav(e.target, e.target.parentNode, "plus")
+                console.log(showLikes)
             } else if (e.target.classList.contains("minus") || e.target.parentNode.classList.contains("minus")) {
                 likeBtnNav(e.target, e.target.parentNode, "minus")
             }
@@ -302,7 +303,7 @@ const deleteComment = (wrapper, commentContainer, deleteBtns) => {
             commentContainer.forEach((comment) => {
                 if (deleteBtn.dataset.delete == comment.dataset.container) {
                     // this is just a tricky method to delete comments the delete wrapper is just there for showcase its not actually deleting the comments
-                    
+
                     const deleteWrapper = getClass("delete-wrapper")
                     deleteWrapper.classList.remove("hide")
                     deleteWrapper.addEventListener("click", (e) => {
